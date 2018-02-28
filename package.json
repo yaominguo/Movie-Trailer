@@ -1,0 +1,27 @@
+{
+  "name": "movie-trailer",
+  "version": "1.0.0",
+  "description": "The website about movie trailer, developed with NodeJs & Koa2.",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yaominguo/Movie-Trailer.git"
+  },
+  "keywords": [
+    "movie",
+    "trailer"
+  ],
+  "author": "Max Kwok",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yaominguo/Movie-Trailer/issues"
+  },
+  "homepage": "https://github.com/yaominguo/Movie-Trailer#readme",
+  "dependencies": {
+    "koa": "^2.5.0"
+  }
+}
