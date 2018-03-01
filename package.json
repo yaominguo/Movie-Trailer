@@ -23,6 +23,7 @@
   "homepage": "https://github.com/yaominguo/Movie-Trailer#readme",
   "dependencies": {
     "koa": "^2.5.0",
+    "koa-views": "^6.1.4",
     "pug": "^2.0.0-rc.4"
   }
 }
