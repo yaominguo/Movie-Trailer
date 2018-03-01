@@ -1,5 +1,7 @@
-const model = require('./model')
+const htmlTpl = require('./html-tpl')
+const pugTpl = require('./pug-tpl')
 
 module.exports = {
-    model: model
+    htmlTpl: htmlTpl,
+    pugTpl: pugTpl
 }
