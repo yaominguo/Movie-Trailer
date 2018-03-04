@@ -1,4 +1,4 @@
-// 爬虫
+// 爬取电影列表
 
 const puppeteer = require('puppeteer')
 const url = `https://movie.douban.com/tag/#/?sort=R&range=6,10&tags=`
