@@ -49,6 +49,9 @@ const sleep = time => new Promise(resolve => {
         return links
     })
     browser.close()
-    console.log(result)
-    console.log('Mission Complete!')
+    // console.log(result)
+    // console.log('Mission Complete!')
+
+    process.send({result}) //发送结果
+    process.exit(0)
 })()
