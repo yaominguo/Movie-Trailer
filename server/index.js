@@ -4,10 +4,17 @@ const views = require('koa-views')
 const {
     resolve
 } = require('path')
+const {
+    connect
+} = require('./database/init')
+
+!(async () => {
+    await connect()
+})()
 
 // 整合模板引擎当中间件使用
-app.use(views(resolve(__dirname,'./views'),{
-    extension:'pug'
+app.use(views(resolve(__dirname, './views'), {
+    extension: 'pug'
 }))
 
 app.use(async (ctx, next) => {
