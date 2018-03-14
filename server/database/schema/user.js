@@ -107,4 +107,4 @@ userSchema.methods = {
     }
 }
 
-mongoose.model('Movie', userSchema)
+mongoose.model('User', userSchema)

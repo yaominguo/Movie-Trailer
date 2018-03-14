@@ -1,7 +1,13 @@
 const mongoose = require('mongoose')
 const db = 'mongodb://localhost/Movie-Trailer-test'
+const { resolve } = require('path')
+const glob = require('glob') //node的模块，可以用*等规则来匹配文件等
 mongoose.Promise = global.Promise
 
+exports.initSchemas = () =>{
+    // 同步加载所有schema下面的文件
+    glob.sync(resolve(__dirname, './schema','**/*.js')).forEach(require)
+}
 exports.connect = () => {
     let maxConnectTimes = 0
     return new Promise((resolve, reject) => {
