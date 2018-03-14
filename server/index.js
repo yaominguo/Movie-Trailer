@@ -10,6 +10,7 @@ const {
     connect,
     initSchemas
 } = require('./database/init')
+const router = require('./route/index')
 
 !(async () => {
     await connect()
@@ -17,6 +18,8 @@ const {
     // require('./tasks/movie')
     require('./tasks/api')
 })()
+
+app.use(router.routes()).use(router.allowedMethods())
 
 // 整合模板引擎当中间件使用
 app.use(views(resolve(__dirname, './views'), {
@@ -39,3 +42,4 @@ app.use(async (ctx, next) => {
 // })
 
 app.listen(2333)
+console.log('Service Start At: http://localhost:2333/')
