@@ -2,32 +2,92 @@
 
 //发起服务器端对豆瓣api的请求
 const rp = require('request-promise-native')
+const mongoose = require('mongoose')
+const Movie = mongoose.model('Movie')
+const Category = mongoose.model('Category')
 
 async function fetchMovie(item){
-    const url = `http://api.douban.com/v2/movie/subject/${item.doubanId}`
+    const url = `http://api.douban.com/v2/movie/${item.doubanId}`
     const res = await rp(url)
-    return res
+    let body
+    try {
+        body = JSON.parse(res)
+    } catch (error) {
+        console.log(error)
+    }
+    return body
 }
 
 !(async ()=>{
-    let movies = [
-        { doubanId: 26856479,
-            title: '盛势',
-            rate: 0,
-            poster: 'https://img3.doubanio.com/view/photo/l_ratio_poster/public/p2495669053.jpg' },
-        { doubanId: 27002131,
-            title: '连带伤害',
-            rate: 8.2,
-            poster: 'https://img3.doubanio.com/view/photo/l_ratio_poster/public/p2514153951.jpg' }
-    ]
-    movies.map(async movie=>{
-        let movieData = await fetchMovie(movie)
-        try{
-            movieData = JSON.parse(movieData)
-            console.log(movieData.genres)
-            console.log(movieData.summary)
-        }catch(err){
-            console.log(err)
-        }
+    let movies = await Movie.find({
+        // 找到满足以下几种条件的数据
+        $or:[
+            { summary: { $exists: false } }, //保存的时候没有保存上，需要再爬一次
+            { summary: null },
+            { summary: '' },
+            { title: '' },
+            { year: { $exists: false } }
+        ]
     })
+    for(let i = 0; i < movies.length; i++){
+        let movie = movies[i]
+        let movieData = await fetchMovie(movie)
+        if(movieData){
+            let tags = movieData.tags || []
+            movie.tags = movie.tags || []
+            movie.summary = movieData.summary
+            movie.title = movieData.alt_title || movieData.title || ''
+            movie.rawTitle = movieData.rawTitle || movieData.title || ''
+            if(movieData.attrs){
+                movie.movieTypes = movieData.attrs.movie_type || []
+                movie.year = movieData.attrs.year[0] || 2500
+                for(let i = 0; i < movie.movieTypes.length; i++){
+                    let item = movie.movieTypes[i]
+                    let cat = await Category.findOne({
+                        name:item
+                    })
+                    if(!cat){
+                        cat = new Category({
+                            name: item,
+                            movies: [movie._id]
+                        })
+                    }else{
+                        if (cat.movies.indexOf(movie._id) === -1){
+                            cat.movies.push(movie._id)
+                        }
+                    }
+                    await cat.save()
+                    if(!movie.category){
+                       movie.category.push(cat._id)
+                    }else{
+                        if(movie.category.indexOf(cat._id) === -1){
+                            movie.category.push(cat._id)
+                        }
+                    }
+                }
+                let dates = movieData.attrs.pubdate || []
+                let pubdates = []
+                dates.map(item => {
+                    if(item && item.split('(').length > 0){
+                        let parts = item.split('(')
+                        let date = parts[0]
+                        let country = '未知'
+                        if(parts[1]){
+                            country = parts[1].split(')')[0]
+                        }
+                        pubdates.push({
+                            date: new Date(date),
+                            country
+                        })
+                    }
+                })
+                movie.pubdate = pubdates
+            }
+            tags.forEach(tag => {
+                movie.tags.push(tag.name)
+            })
+            // console.log(movie)
+            await movie.save()
+        }
+    }
 })()

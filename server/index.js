@@ -14,9 +14,8 @@ const {
 !(async () => {
     await connect()
     initSchemas()
-    const Movie = mongoose.model('Movie')
-    const movies = await Movie.find({})
-    console.log(movies)
+    // require('./tasks/movie')
+    require('./tasks/api')
 })()
 
 // 整合模板引擎当中间件使用
