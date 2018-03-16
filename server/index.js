@@ -19,7 +19,8 @@ const router = require('./route/index')
     require('./tasks/api')
 })()
 
-app.use(router.routes()).use(router.allowedMethods())
+// 在decorator.js文件中写了，故这里不用了
+// app.use(router.routes()).use(router.allowedMethods())
 
 // 整合模板引擎当中间件使用
 app.use(views(resolve(__dirname, './views'), {
