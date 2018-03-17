@@ -5,6 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "start": "node server/index.js",
+    "build": "rm -rf parcel/dist && parcel build src/index.html --no-cache -d dist --public-url /",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -45,6 +46,8 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "parcel-bundler": "^1.6.2"
+    "node-sass": "^4.7.2",
+    "parcel-bundler": "^1.6.2",
+    "postcss-cssnext": "^3.1.0"
   }
 }
