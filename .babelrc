@@ -6,7 +6,7 @@
     ],
     "plugins": [
         "transform-runtime",
-        "transofrm-decorators-legacy",
+        "transform-decorators-legacy",
         "transform-class-properties"
     ]
 }

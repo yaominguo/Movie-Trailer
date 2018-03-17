@@ -1,7 +1,11 @@
-const { Route } = require('../lib/decorator')
-const { resolve } = require('path')
+const {
+    Route
+} = require('../lib/decorator')
+const {
+    resolve
+} = require('path')
 
-export const router = app =>{
+export const router = app => {
     const apiPath = resolve(__dirname, '../route')
     const router = new Route(app, apiPath)
 
