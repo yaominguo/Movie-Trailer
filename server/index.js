@@ -9,7 +9,7 @@ const {
     initSchemas
 } = require('./database/init')
 const R = require('ramda')
-const MIDDLEWARES = ['router']
+const MIDDLEWARES = ['router', 'parcel']
 
 const userMiddlewares = (app) => {
     R.map(
@@ -34,7 +34,6 @@ const userMiddlewares = (app) => {
     app.listen(2333)
     console.log('Service Start At: http://localhost:2333/')
 })()
-
 
 
 // 在decorator.js文件中写了，故这里不用了
