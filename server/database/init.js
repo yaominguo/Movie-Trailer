@@ -8,6 +8,21 @@ exports.initSchemas = () =>{
     // 同步加载所有schema下面的文件
     glob.sync(resolve(__dirname, './schema','**/*.js')).forEach(require)
 }
+exports.initAdmin = async() => {
+    const User = mongoose.model('User')
+    let user = await User.findOne({
+        username: 'Guo'
+    })
+    if(!user){
+        const user = new User({
+            username: 'Guo',
+            email:'missgmy@yahoo.com',
+            password:'123456',
+            role:'admin'
+        })
+        await user.save()
+    }
+}
 exports.connect = () => {
     let maxConnectTimes = 0
     return new Promise((resolve, reject) => {

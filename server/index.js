@@ -6,7 +6,8 @@ const {
 } = require('path')
 const {
     connect,
-    initSchemas
+    initSchemas,
+    initAdmin
 } = require('./database/init')
 const R = require('ramda')
 const MIDDLEWARES = ['router', 'parcel']
@@ -26,8 +27,11 @@ const userMiddlewares = (app) => {
 !(async () => {
     await connect()
     initSchemas()
+    await initAdmin()
     // require('./tasks/movie')
-    require('./tasks/api')
+    // require('./tasks/api')
+    // require('./tasks/trailer')
+    // require('./tasks/qiniu')
 
     const app = new Koa()
     await userMiddlewares(app)

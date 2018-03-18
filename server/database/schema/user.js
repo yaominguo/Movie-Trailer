@@ -7,7 +7,7 @@ const MAX_LOGIN_ATTEMPTS = 5
 const LOCK_TIME = 2 * 60 * 60 * 1000
 
 const userSchema = new Schema({
-    userNmae: {
+    username: {
         unique: true,
         type: String,
         required: true
